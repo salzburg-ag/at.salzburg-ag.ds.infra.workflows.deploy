@@ -1,0 +1,60 @@
+name: deploy to shared-dev (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      fq-image-name:
+        required: true
+        type: string
+      k8s-api-url:
+        required: true
+        type: string
+      k8s-namespace:
+        required: true
+        type: string
+      kustomize-overlay-directory:
+        required: true
+        type: string
+    secrets:
+      k8s-api-token:
+        required: true
+
+jobs:
+  deploy:
+    environment: dev
+    runs-on: [self-hosted, dev, sbgagds.onmicrosoft.com]
+    env:
+      REGISTRY: ds-images.pkgs.ops.salzburg-ag.tech
+    steps:
+      - uses: Azure/k8s-set-context@v2
+        name: Kubernetes set context
+        with:
+          method: service-account
+          k8s-url: ${{ inputs.k8s-api-url }}
+          k8s-secret: ${{ secrets.k8s-api-token }}
+
+      - uses: actions/checkout@v2
+
+      - uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: '4.5.4'
+
+      - name: 'Kustomize Build'
+        run: |
+          cd ${{ inputs.kustomize-overlay-directory }}/dev
+          kustomize edit set image ${{ inputs.fq-image-name }}
+          kustomize build -o k8s-rendered.yaml
+          cat k8s-rendered.yaml
+
+      - uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.21.9'
+
+      - uses:  roehrijn/k8s-deploy@releases/temporary-v3
+        #- uses: Azure/k8s-deploy@v3.0
+        with:
+          namespace: ${{ inputs.k8s-namespace }}
+          manifests: |
+            ${{ inputs.kustomize-overlay-directory }}/dev/k8s-rendered.yaml
+          annotate-namespace: false
+          pull-images: false
