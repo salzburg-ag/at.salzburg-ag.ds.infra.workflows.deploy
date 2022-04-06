@@ -28,7 +28,7 @@ jobs:
         name: Kubernetes set context
         with:
           method: service-account
-          k8s-url: ${{ inputs.k8s-api-url }}
+          k8s-url: ${{ secrets.k8s-api-url }}
           k8s-secret: ${{ secrets.k8s-api-token }}
 
       - uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
       - uses:  roehrijn/k8s-deploy@releases/temporary-v3
         #- uses: Azure/k8s-deploy@v3.0
         with:
-          namespace: ${{ inputs.k8s-namespace }}
+          namespace: ${{ secrets.k8s-namespace }}
           manifests: |
             ${{ inputs.kustomize-overlay-directory }}/dev/k8s-rendered.yaml
           annotate-namespace: false
