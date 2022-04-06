@@ -3,9 +3,6 @@ name: deploy to shared-dev (reusable)
 on:
   workflow_call:
     inputs:
-      fq-image-name:
-        required: true
-        type: string
       kustomize-overlay-directory:
         required: true
         type: string
@@ -23,7 +20,7 @@ on:
 jobs:
   deploy:
     environment: dev
-    runs-on: [self-hosted, dev, sbgagds.onmicrosoft.com]
+    runs-on: [self-hosted, stage, sbgagds.onmicrosoft.com]
     env:
       REGISTRY: ds-images.pkgs.ops.salzburg-ag.tech
     steps:
@@ -44,10 +41,7 @@ jobs:
 
       - name: 'Kustomize Build'
         run: |
-          pushd ${{ inputs.kustomize-overlay-directory }}/dev
-          kustomize edit set image ${{ inputs.fq-image-name }}
-          popd
-          kustomize build {{ inputs.kustomize-overlay-directory }}/dev -o k8s-rendered.yaml
+          kustomize build {{ inputs.kustomize-overlay-directory }}/stage -o k8s-rendered.yaml
           cat k8s-rendered.yaml
 
       - uses: azure/setup-kubectl@v2.0
