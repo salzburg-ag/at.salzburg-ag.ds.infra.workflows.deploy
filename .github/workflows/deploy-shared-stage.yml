@@ -19,7 +19,7 @@ on:
 
 jobs:
   deploy:
-    environment: dev
+    environment: stage
     runs-on: [self-hosted, stage, sbgagds.onmicrosoft.com]
     env:
       REGISTRY: ds-images.pkgs.ops.salzburg-ag.tech
