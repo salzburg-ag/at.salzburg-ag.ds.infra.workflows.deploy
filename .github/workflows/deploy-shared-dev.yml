@@ -9,6 +9,9 @@ on:
       kustomize-overlay-directory:
         required: true
         type: string
+      ref:
+        required: true
+        type: string
     secrets:
       k8s-api-url:
         required: true
@@ -32,6 +35,8 @@ jobs:
           k8s-secret: ${{ secrets.k8s-api-token }}
 
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.ref }}
 
       - uses: imranismail/setup-kustomize@v1
         with:
