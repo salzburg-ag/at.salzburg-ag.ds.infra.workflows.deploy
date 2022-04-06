@@ -44,9 +44,10 @@ jobs:
 
       - name: 'Kustomize Build'
         run: |
-          cd ${{ inputs.kustomize-overlay-directory }}/dev
+          pushd ${{ inputs.kustomize-overlay-directory }}/dev
           kustomize edit set image ${{ inputs.fq-image-name }}
-          kustomize build -o k8s-rendered.yaml
+          popd
+          kustomize build -o k8s-rendered.yaml {{ inputs.kustomize-overlay-directory }}/dev
           cat k8s-rendered.yaml
 
       - uses: azure/setup-kubectl@v2.0
@@ -58,6 +59,6 @@ jobs:
         with:
           namespace: ${{ secrets.k8s-namespace }}
           manifests: |
-            ${{ inputs.kustomize-overlay-directory }}/dev/k8s-rendered.yaml
+            k8s-rendered.yaml
           annotate-namespace: false
           pull-images: false
