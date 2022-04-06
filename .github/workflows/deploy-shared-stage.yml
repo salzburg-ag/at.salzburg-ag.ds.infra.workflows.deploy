@@ -1,4 +1,4 @@
-name: deploy to shared-dev (reusable)
+name: deploy to shared-stage (reusable)
 
 on:
   workflow_call:
