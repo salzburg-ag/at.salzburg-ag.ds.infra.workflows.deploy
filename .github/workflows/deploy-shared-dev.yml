@@ -47,7 +47,7 @@ jobs:
           pushd ${{ inputs.kustomize-overlay-directory }}/dev
           kustomize edit set image ${{ inputs.fq-image-name }}
           popd
-          kustomize build {{ inputs.kustomize-overlay-directory }}/dev -o k8s-rendered.yaml
+          kustomize build ${{ inputs.kustomize-overlay-directory }}/dev -o k8s-rendered.yaml
           cat k8s-rendered.yaml
 
       - uses: azure/setup-kubectl@v2.0

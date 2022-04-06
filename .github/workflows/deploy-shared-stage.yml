@@ -41,7 +41,7 @@ jobs:
 
       - name: 'Kustomize Build'
         run: |
-          kustomize build {{ inputs.kustomize-overlay-directory }}/stage -o k8s-rendered.yaml
+          kustomize build ${{ inputs.kustomize-overlay-directory }}/stage -o k8s-rendered.yaml
           cat k8s-rendered.yaml
 
       - uses: azure/setup-kubectl@v2.0
