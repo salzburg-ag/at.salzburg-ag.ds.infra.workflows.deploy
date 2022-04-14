@@ -5,6 +5,15 @@ on:
     secrets:
       config:
         required: true
+    outputs:
+      container-registry-name:
+        value: ${{ steps.artifactory.outputs.container-registry-name }}
+      artifactory-username:
+        value: ${{ steps.artifactory.outputs.artifactory-username }}
+      npm-all-url:
+        value: ${{ steps.artifactory.outputs.npm-all-url }}
+      npm-packages-url:
+        value: ${{ steps.artifactory.outputs.npm-packages-url }}
 
 jobs:
   extract-repository-config:
