@@ -7,13 +7,13 @@ on:
         required: true
     outputs:
       container-registry-name:
-        value: ${{ steps.artifactory.outputs.container-registry-name }}
+        value: ${{ jobs.extract-repository-config.outputs.container-registry-name }}
       artifactory-username:
-        value: ${{ steps.artifactory.outputs.artifactory-username }}
+        value: ${{ jobs.extract-repository-config.outputs.artifactory-username }}
       npm-all-url:
-        value: ${{ steps.artifactory.outputs.npm-all-url }}
+        value: ${{ jobs.extract-repository-config.outputs.npm-all-url }}
       npm-packages-url:
-        value: ${{ steps.artifactory.outputs.npm-packages-url }}
+        value: ${{ jobs.extract-repository-config.outputs.npm-packages-url }}
 
 jobs:
   extract-repository-config:
