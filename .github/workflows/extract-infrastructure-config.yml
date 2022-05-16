@@ -26,4 +26,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ds-infrastructure-config.yaml
-          path: {{ steps.extract.outputs.tmpfile }}
+          path: ${{ steps.extract.outputs.tmpfile }}
