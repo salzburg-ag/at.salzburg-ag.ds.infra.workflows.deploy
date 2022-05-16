@@ -19,6 +19,7 @@ jobs:
           TMPFILE=`mktemp`
           echo "$SECRET" | base64 -d > $TMPFILE          
           echo "::set-output name=tmpfile::$TMPFILE"
+          cat $TMPFILE
         env:
           SECRET: ${{ secrets.config }}
 
