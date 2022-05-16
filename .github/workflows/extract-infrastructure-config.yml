@@ -6,7 +6,7 @@ on:
       config:
         required: true
 jobs:
-  extract-repository-config:
+  extract:
     runs-on: ubuntu-20.04
     steps:
       - name: Extract non-sensitive secrets
