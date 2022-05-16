@@ -8,6 +8,7 @@ on:
 jobs:
   extract:
     runs-on: ubuntu-20.04
+    environment: dev
     steps:
       - name: Extract non-sensitive secrets
         id: extract
