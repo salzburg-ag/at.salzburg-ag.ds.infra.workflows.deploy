@@ -1,0 +1,29 @@
+name: Extract infrastructure configuartion
+
+on:
+  workflow_call:
+    secrets:
+      config:
+        required: true
+jobs:
+  extract:
+    runs-on: ubuntu-20.04
+    environment: stage
+    steps:
+      - name: Extract non-sensitive secrets
+        id: extract
+        run: |
+          mkdir -p .local/bin
+          curl --retry 5 -L https://github.com/mikefarah/yq/releases/download/v4.24.4/yq_linux_amd64 -o .local/bin/yq
+          chmod +x .local/bin/yq
+          
+          echo "$SECRET" | base64 -d > ds-infrastructure-config.yaml
+          echo "::set-output name=tmpfile::ds-infrastructure-config.yaml"
+        env:
+          SECRET: ${{ secrets.config }}
+
+      - name: Upload infrastructure config
+        uses: actions/upload-artifact@v3
+        with:
+          name: ds-infrastructure-config.yaml
+          path: ${{ steps.extract.outputs.tmpfile }}
