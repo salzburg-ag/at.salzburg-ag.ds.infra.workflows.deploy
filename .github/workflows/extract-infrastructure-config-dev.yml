@@ -18,11 +18,8 @@ jobs:
           chmod +x .local/bin/yq
 
           TMPFILE=`mktemp`
-          echo "Hello World"
-          echo "$SECRET" | base64 -d
           echo "$SECRET" | base64 -d > $TMPFILE          
           echo "::set-output name=tmpfile::$TMPFILE"
-          cat $TMPFILE
         env:
           SECRET: ${{ secrets.config }}
 
