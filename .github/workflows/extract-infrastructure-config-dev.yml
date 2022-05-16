@@ -16,10 +16,9 @@ jobs:
           mkdir -p .local/bin
           curl --retry 5 -L https://github.com/mikefarah/yq/releases/download/v4.24.4/yq_linux_amd64 -o .local/bin/yq
           chmod +x .local/bin/yq
-
-          TMPFILE=`mktemp`
-          echo "$SECRET" | base64 -d > $TMPFILE          
-          echo "::set-output name=tmpfile::$TMPFILE"
+          
+          echo "$SECRET" | base64 -d > ds-infrastructure-config.yaml
+          echo "::set-output name=tmpfile::ds-infrastructure-config.yaml"
         env:
           SECRET: ${{ secrets.config }}
 
