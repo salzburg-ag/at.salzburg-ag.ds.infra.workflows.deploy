@@ -14,6 +14,12 @@ on:
         value: ${{ jobs.extract-repository-config.outputs.npm-all-url }}
       npm-packages-url:
         value: ${{ jobs.extract-repository-config.outputs.npm-packages-url }}
+      maven-all-url: 
+        value: ${{ jobs.extract-repository-config.outputs.maven-all-url }}
+      maven-snapshots-url: 
+        value: ${{ jobs.extract-repository-config.outputs.maven-snapshots-url }}
+      maven-releases-url: 
+        value: ${{ jobs.extract-repository-config.outputs.maven-releases-url }}
 
 jobs:
   extract-repository-config:
@@ -40,3 +46,6 @@ jobs:
       artifactory-username: ${{ steps.artifactory.outputs.artifactory-username }}
       npm-all-url: ${{ steps.artifactory.outputs.npm-all-url }}
       npm-packages-url: ${{ steps.artifactory.outputs.npm-packages-url }}
+      maven-all-url:  ${{ steps.artifactory.outputs.maven-all-url }}       
+      maven-snapshots-url:  ${{ steps.artifactory.outputs.maven-snapshots-url }}
+      maven-releases-url:  ${{ steps.artifactory.outputs.maven-releases-url }}
